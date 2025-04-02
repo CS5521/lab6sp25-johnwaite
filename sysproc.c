@@ -89,3 +89,24 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_hw(void)
+{
+  cprintf("hello world!\n");
+  return 0;
+}
+
+
+int 
+sys_fkc(void) 
+{
+  int n;
+  if (argint(0, &n) < 0) return -1;
+
+  if (n == 0) {
+    reset_fork_count();
+    return 0;
+  }
+  return get_fork_count();
+}

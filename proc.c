@@ -13,6 +13,7 @@ struct {
 } ptable;
 
 static struct proc *initproc;
+static int fork_count = 0;
 
 int nextpid = 1;
 extern void forkret(void);
@@ -174,6 +175,22 @@ growproc(int n)
   return 0;
 }
 
+
+// Function to get the current fork count
+int
+get_fork_count(void)
+{
+  return fork_count;
+}
+
+// Function to reset the fork count
+void
+reset_fork_count(void)
+{
+  fork_count = 0;
+}
+
+
 // Create a new process copying p as the parent.
 // Sets up stack to return as if from system call.
 // Caller must set state of returned proc to RUNNABLE.
@@ -217,6 +234,8 @@ fork(void)
   np->state = RUNNABLE;
 
   release(&ptable.lock);
+
+  fork_count++;
 
   return pid;
 }
